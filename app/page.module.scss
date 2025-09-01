@@ -8,8 +8,6 @@
   scrollbar-width: none;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
-  /* smooth scrolling between snap points */
-  scroll-behavior: smooth;
 
   article {
     background: #323;
