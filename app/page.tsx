@@ -25,8 +25,8 @@ export default function Home() {
         if (index + 1 === articles.length) {
           return (
             <article
-              ref={lastArticleRef}
               key={articleNumber}
+              ref={lastArticleRef}
             >
               <h1>{articleNumber}</h1>
             </article>

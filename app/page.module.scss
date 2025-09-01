@@ -4,18 +4,18 @@
 }
 
 .container {
-  overflow-x: hidden;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: both mandatory;
   scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  /* smooth scrolling between snap points */
+  scroll-behavior: smooth;
 
   article {
     background: #323;
     scroll-snap-align: start;
-    scroll-snap-stop: always;
-    border: 1px solid #fff;
-    padding: 20px;
+    border: thin solid #ccc;
+    padding: 1rem;
 
     &:nth-child(odd) {
       background: #232;
