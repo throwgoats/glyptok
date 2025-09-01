@@ -3,33 +3,41 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./page.module.scss";
-import colors from "./colors";
+import { getColor, getRandomColorIndex } from "./colors";
 
 export default function Home() {
   const [articles, setArticles] = useState([1, 2]);
   const [articleColors, setArticleColors] = useState<{ [key: number]: string }>({});
   const observer = useRef<IntersectionObserver | null>(null);
 
-  // Helper to get a random color from the colors array
-  const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
+  const totalColors = 32;
+  // Helper to get a color for a given index
+  const getColorForIndex = (index: number) => getColor(index, totalColors);
 
-  // Assign a color to a new article if it doesn't have one
+  // Assign a random color to a new article, avoiding repeats within the last 4
   useEffect(() => {
     setArticleColors((prev) => {
       const updated = { ...prev };
       let changed = false;
+      // Track the last 4 color indices used
+      const recentIndices: number[] = Object.values(updated)
+        .map((color) => {
+          // Extract hue from oklch string
+          const match = color.match(/oklch\([^ ]+ [^ ]+ ([^\)]+)\)/);
+          return match ? parseFloat(match[1]) : -1;
+        })
+        .map((hue) => {
+          // Map hue back to index
+          return Math.round((hue / 360) * totalColors) % totalColors;
+        })
+        .filter((idx) => idx >= 0);
+
       articles.forEach((articleNumber) => {
         if (!(articleNumber in updated)) {
-          let color;
-          // Avoid duplicate colors if possible
-          const usedColors = Object.values(updated);
-          const availableColors = colors.filter((c) => !usedColors.includes(c));
-          if (availableColors.length > 0) {
-            color = availableColors[Math.floor(Math.random() * availableColors.length)];
-          } else {
-            color = getRandomColor();
-          }
-          updated[articleNumber] = color;
+          const idx = getRandomColorIndex(totalColors, recentIndices, 4);
+          updated[articleNumber] = getColor(idx, totalColors);
+          recentIndices.push(idx);
+          if (recentIndices.length > 4) recentIndices.shift();
           changed = true;
         }
       });
@@ -53,7 +61,7 @@ export default function Home() {
   return (
     <section className={styles.container}>
       {articles.map((articleNumber, index) => {
-        const bgColor = articleColors[articleNumber] || getRandomColor();
+        const bgColor = articleColors[articleNumber] || getColorForIndex(index);
         if (index + 1 === articles.length) {
           return (
             <article

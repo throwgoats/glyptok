@@ -1,37 +1,23 @@
-// Color palette for the app
-const colors = [
-  "oklch(0.75 0.43 0.0)",
-  "oklch(0.75 0.43 11.2)",
-  "oklch(0.75 0.43 22.5)",
-  "oklch(0.75 0.43 33.8)",
-  "oklch(0.75 0.43 45.0)",
-  "oklch(0.75 0.43 56.2)",
-  "oklch(0.75 0.43 67.5)",
-  "oklch(0.75 0.43 78.8)",
-  "oklch(0.75 0.43 90.0)",
-  "oklch(0.75 0.43 101.2)",
-  "oklch(0.75 0.43 112.5)",
-  "oklch(0.75 0.43 123.8)",
-  "oklch(0.75 0.43 135.0)",
-  "oklch(0.75 0.43 146.2)",
-  "oklch(0.75 0.43 157.5)",
-  "oklch(0.75 0.43 168.8)",
-  "oklch(0.75 0.43 180.0)",
-  "oklch(0.75 0.43 191.2)",
-  "oklch(0.75 0.43 202.5)",
-  "oklch(0.75 0.43 213.8)",
-  "oklch(0.75 0.43 225.0)",
-  "oklch(0.75 0.43 236.2)",
-  "oklch(0.75 0.43 247.5)",
-  "oklch(0.75 0.43 258.8)",
-  "oklch(0.75 0.43 270.0)",
-  "oklch(0.75 0.43 281.2)",
-  "oklch(0.75 0.43 292.5)",
-  "oklch(0.75 0.43 303.8)",
-  "oklch(0.75 0.43 315.0)",
-  "oklch(0.75 0.43 326.2)",
-  "oklch(0.75 0.43 337.5)",
-  "oklch(0.75 0.43 348.8)"
-];
+// color palette generator
+export function getColor(index: number, total: number = 32) {
+  const lightness = 0.75;
+  const chroma = 0.43;
+  const step = 360 / total;
+  const hue = (index * step) % 360;
+  return `oklch(${lightness} ${chroma} ${hue})`;
+}
 
-export default colors;
+// random color picker
+export function getRandomColorIndex(total: number, recent: number[], avoidCount: number = 4): number {
+  const avoidSet = new Set(recent.slice(-avoidCount));
+  const available = [];
+  for (let i = 0; i < total; i++) {
+    if (!avoidSet.has(i)) available.push(i);
+  }
+  if (available.length === 0) {
+    // fallback: all indices are in recent, so allow all
+    for (let i = 0; i < total; i++) available.push(i);
+  }
+  const idx = Math.floor(Math.random() * available.length);
+  return available[idx];
+}
