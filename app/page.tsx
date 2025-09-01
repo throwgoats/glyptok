@@ -5,9 +5,9 @@ import styles from "./page.module.scss";
 
 export default function Home() {
   const [articles, setArticles] = useState([1, 2]);
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver | null>(null);
   const lastArticleRef = useCallback(
-    (node) => {
+    (node: HTMLElement | null) => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
