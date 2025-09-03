@@ -11,15 +11,16 @@ export default function Home() {
   const observer = useRef<IntersectionObserver | null>(null);
 
   const totalColors = 32;
+  const avoidCount = 4; // Number of recent colors to avoid repeating
   // Helper to get a color for a given index
   const getColorForIndex = (index: number) => getColor(index, totalColors);
 
-  // Assign a random color to a new article, avoiding repeats within the last 4
+  // Assign a random color to a new article, avoiding repeats within the last avoidCount
   useEffect(() => {
     setArticleColors((prev) => {
       const updated = { ...prev };
       let changed = false;
-      // Track the last 4 color indices used
+      // Track the last avoidCount color indices used
       const recentIndices: number[] = Object.values(updated)
         .map((color) => {
           // Extract hue from oklch string
@@ -34,10 +35,10 @@ export default function Home() {
 
       articles.forEach((articleNumber) => {
         if (!(articleNumber in updated)) {
-          const idx = getRandomColorIndex(totalColors, recentIndices, 4);
+          const idx = getRandomColorIndex(totalColors, recentIndices, avoidCount);
           updated[articleNumber] = getColor(idx, totalColors);
           recentIndices.push(idx);
-          if (recentIndices.length > 4) recentIndices.shift();
+          if (recentIndices.length > avoidCount) recentIndices.shift();
           changed = true;
         }
       });
