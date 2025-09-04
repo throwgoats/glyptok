@@ -1,3 +1,38 @@
+
+// Assigns a color to each article, avoiding recent repeats
+export function assignArticleColors(
+  articles: number[],
+  prev: { [key: number]: string },
+  totalColors: number = 32,
+  avoidCount: number = 4
+): { [key: number]: string } {
+  const updated = { ...prev };
+  let changed = false;
+  // Track the last avoidCount color indices used
+  const recentIndices: number[] = Object.values(updated)
+    .map((color) => {
+      // Extract hue from oklch string
+      const match = color.match(/oklch\([^ ]+ [^ ]+ ([^\)]+)\)/);
+      return match ? parseFloat(match[1]) : -1;
+    })
+    .map((hue) => {
+      // Map hue back to index
+      return Math.round((hue / 360) * totalColors) % totalColors;
+    })
+    .filter((idx) => idx >= 0);
+
+  articles.forEach((articleNumber) => {
+    if (!(articleNumber in updated)) {
+      const idx = getRandomColorIndex(totalColors, recentIndices, avoidCount);
+      updated[articleNumber] = getColor(idx, totalColors);
+      recentIndices.push(idx);
+      if (recentIndices.length > avoidCount) recentIndices.shift();
+      changed = true;
+    }
+  });
+  return changed ? updated : prev;
+}
+
 // color palette generator
 export function getColor(index: number, total: number = 32) {
   const lightness = 0.75;

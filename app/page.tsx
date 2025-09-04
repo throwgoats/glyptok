@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./page.module.scss";
-import { getColor, getRandomColorIndex } from "./colors";
+import { getColor, assignArticleColors } from "./colors";
 
 export default function Home() {
   const [articles, setArticles] = useState([1, 2]);
@@ -17,33 +17,7 @@ export default function Home() {
 
   // Assign a random color to a new article, avoiding repeats within the last avoidCount
   useEffect(() => {
-    setArticleColors((prev) => {
-      const updated = { ...prev };
-      let changed = false;
-      // Track the last avoidCount color indices used
-      const recentIndices: number[] = Object.values(updated)
-        .map((color) => {
-          // Extract hue from oklch string
-          const match = color.match(/oklch\([^ ]+ [^ ]+ ([^\)]+)\)/);
-          return match ? parseFloat(match[1]) : -1;
-        })
-        .map((hue) => {
-          // Map hue back to index
-          return Math.round((hue / 360) * totalColors) % totalColors;
-        })
-        .filter((idx) => idx >= 0);
-
-      articles.forEach((articleNumber) => {
-        if (!(articleNumber in updated)) {
-          const idx = getRandomColorIndex(totalColors, recentIndices, avoidCount);
-          updated[articleNumber] = getColor(idx, totalColors);
-          recentIndices.push(idx);
-          if (recentIndices.length > avoidCount) recentIndices.shift();
-          changed = true;
-        }
-      });
-      return changed ? updated : prev;
-    });
+    setArticleColors((prev) => assignArticleColors(articles, prev, totalColors, avoidCount));
   }, [articles]);
 
   const lastArticleRef = useCallback(
