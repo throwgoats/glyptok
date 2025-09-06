@@ -13,7 +13,7 @@
     background: #323;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    border: thin solid #666;
+    overflow: hidden;
     padding: 1rem;
 
     &:nth-child(odd) {
