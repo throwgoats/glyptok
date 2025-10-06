@@ -1,10 +1,8 @@
-"use client";
-
 import { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./page.module.scss";
+import styles from "./App.module.scss";
 import { getColor, assignArticleColors } from "./colors";
 
-export default function Home() {
+export default function App() {
   const [articles, setArticles] = useState([1, 2]);
   const [articleColors, setArticleColors] = useState<{ [key: number]: string }>({});
   const observer = useRef<IntersectionObserver | null>(null);
