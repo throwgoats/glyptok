@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./page.module.scss";
 import { getColor, assignArticleColors } from "./colors";
