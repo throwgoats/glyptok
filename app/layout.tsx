@@ -24,6 +24,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Melt into the abyss" />
+        <meta name="theme-color" content="#AAAAAA" />
+        <meta property="og:title" content="Glyptok" />
+        <meta property="og:description" content="Melt into the abyss" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://glyptok.netlify.app/" />
+        <meta property="og:image" content="/app/favicon.ico" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Glyptok" />
+        <meta name="twitter:description" content="Melt into the abyss" />
+        <meta name="twitter:image" content="/app/favicon.ico" />
+        <link rel="icon" href="/app/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
