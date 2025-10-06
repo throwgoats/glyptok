@@ -1,6 +1,16 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  [plugins.inputs]
+    disable = true
 
 [[redirects]]
   from = "/*"
