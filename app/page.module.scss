@@ -10,14 +10,16 @@
   -webkit-overflow-scrolling: touch;
 
   article {
-    background: #323;
+    display: grid;
+    place-items: center;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     overflow: hidden;
     padding: 1rem;
+  }
 
-    &:nth-child(odd) {
-      background: #232;
-    }
+  h1 {
+    place-self: start;
+    font-weight: bold;
   }
 }
