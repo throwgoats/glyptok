@@ -3,7 +3,7 @@ import styles from "./App.module.scss";
 import { getColor, assignArticleColors } from "./colors";
 
 export default function App() {
-  const [articles, setArticles] = useState([1, 2]);
+  const [articles, setArticles] = useState([1]);
   const [articleColors, setArticleColors] = useState<{ [key: number]: string }>({});
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -12,7 +12,7 @@ export default function App() {
   // Helper to get a color for a given index
   const getColorForIndex = (index: number) => getColor(index, totalColors);
 
-  // Assign a random color to a new article, avoiding repeats within the last avoidCount
+  // Assign a random color to each article, avoid repeats w/ avoidCount
   useEffect(() => {
     setArticleColors((prev) => assignArticleColors(articles, prev, totalColors, avoidCount));
   }, [articles]);
