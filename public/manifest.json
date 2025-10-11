@@ -4,14 +4,14 @@
   "description": "Melt into the abyss",
   "icons": [
     {
-      "src": "/app/favicon.ico",
-      "sizes": "48x48 64x64 96x96 128x128 256x256",
-      "type": "image/x-icon"
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "scope": "https://glyptok.netlify.app/",
   "theme_color": "#AAAAAA",
   "background_color": "#000000"
 }
