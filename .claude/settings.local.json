@@ -2,8 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Read(//Users/shawn/Projects/gt_old/app/**)",
-      "Bash(cat:*)"
+      "Read(//Users/shawn/Projects/glyptok/**)",
+      "Bash(cat:*)",
+      "Read(//Users/shawn/.config/**)"
     ],
     "deny": [],
     "ask": []
